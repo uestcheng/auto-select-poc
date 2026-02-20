@@ -1,0 +1,77 @@
+import { expect, test } from '@playwright/test'
+import { ProductsPage } from '../src/page/products.page.js'
+import { UsersPage } from '../src/page/users.page.js'
+
+const appBaseURL = process.env.APP_BASE_URL ?? 'http://localhost:5172'
+
+test.use({ baseURL: appBaseURL })
+
+
+test('users to products order flow @smoke @UsersPage, @ProductsPage', async ({ page }) => {
+  const usersPage = new UsersPage(page)
+  const productsPage = new ProductsPage(page)
+
+  await usersPage.open()
+  await expect(usersPage.heading).toBeVisible()
+  await usersPage.selectUser(1)
+
+  await productsPage.open()
+  await expect(productsPage.heading).toBeVisible()
+  await expect(productsPage.activeUserHint).toContainText('Alice')
+
+  await productsPage.placeOrder(0, 1)
+  await expect(productsPage.notice).toContainText('Order placed successfully.')
+  await expect(page.getByText(/Alice ordered 1 x/i)).toBeVisible()
+})
+
+test('create user then place order @smoke @UsersPage, @ProductsPage', async ({ page }) => {
+  const usersPage = new UsersPage(page)
+  const productsPage = new ProductsPage(page)
+  const uniqueSuffix = Date.now()
+  const userName = `E2E User ${uniqueSuffix}`
+  const userEmail = `e2e-${uniqueSuffix}@test.com`
+
+  await usersPage.open()
+  await expect(usersPage.heading).toBeVisible()
+  await usersPage.addUser(userName, userEmail)
+
+  const userRow = page.locator('tbody tr', { hasText: userName }).first()
+  await expect(userRow).toBeVisible()
+  await userRow.getByRole('button', { name: 'Select' }).click()
+
+  await page.getByTestId('main-nav').getByRole('link', { name: 'Products' }).click()
+  await expect(page).toHaveURL(/\/products$/)
+  await expect(productsPage.activeUserHint).toContainText(userName)
+
+  await productsPage.placeOrder(1, 1)
+  await expect(productsPage.notice).toContainText('Order placed successfully.')
+  await expect(page.getByText(new RegExp(`${userName} ordered 1 x`, 'i'))).toBeVisible()
+})
+
+test('flow - create user only @UsersPage', async ({ page }) => {
+  const usersPage = new UsersPage(page)
+  const uniqueSuffix = Date.now()
+  const userName = `Flow User ${uniqueSuffix}`
+  const userEmail = `flow-${uniqueSuffix}@test.com`
+
+  await usersPage.open()
+  await expect(usersPage.heading).toBeVisible()
+
+  await usersPage.addUser(userName, userEmail)
+
+  const userRow = page.locator('tbody tr', { hasText: userName }).first()
+  await expect(userRow).toBeVisible()
+  await expect(userRow).toContainText(userEmail)
+})
+
+test('flow - place order with current active user @ProductsPage', async ({ page }) => {
+  const productsPage = new ProductsPage(page)
+
+  await productsPage.open()
+  await expect(productsPage.heading).toBeVisible()
+  await expect(productsPage.activeUserHint).toContainText('Alice')
+
+  await productsPage.placeOrder(0, 1)
+  await expect(productsPage.notice).toContainText('Order placed successfully.')
+  await expect(page.getByText(/Alice ordered 1 x/i)).toBeVisible()
+})
