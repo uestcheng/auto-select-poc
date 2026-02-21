@@ -7,7 +7,7 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
-    "test:dynamic": "tsx src/utils/runDynamicSelection.ts"
+    "test:dynamic": "bash ./scripts/run-dynamic-selection.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
