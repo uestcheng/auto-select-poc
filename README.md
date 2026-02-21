@@ -1,5 +1,7 @@
 # Auto-select POC - Frontend QA
 
+- Dynamic selection doc (Phase 1): [Dynamic.md](Dynamic.md)
+
 ## Start the frontend app
 
 From the `frontend` folder:
