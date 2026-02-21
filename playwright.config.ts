@@ -12,7 +12,8 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 
-const isHeadless = process.env.HEADLESS === 'true';
+const isCI = !!process.env.CI;
+const isHeadless = isCI ? true : process.env.HEADLESS === 'true';
 
 export default defineConfig({
   testDir: './specs',
