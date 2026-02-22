@@ -7,3 +7,5 @@ test-results
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+# test-list-file
+.tmp

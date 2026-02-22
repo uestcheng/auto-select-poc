@@ -19,8 +19,8 @@ test.describe('resolve-tests unit', () => {
     const result = parseListOutput(raw)
 
     expect(result).toEqual([
-      '[chromium] › example.spec.ts:10:1 › users to products order flow TC_SMOKE_USERS_TO_PRODUCTS @smoke',
-      '[chromium] › example.spec.ts:27:1 › create user then place order TC_SMOKE_CREATE_USER_ORDER @smoke',
+      'example.spec.ts › users to products order flow TC_SMOKE_USERS_TO_PRODUCTS @smoke',
+      'example.spec.ts › create user then place order TC_SMOKE_CREATE_USER_ORDER @smoke',
     ])
   })
 
@@ -46,11 +46,11 @@ test.describe('resolve-tests unit', () => {
 
   test('resolveSelectedTests should include suite-tag and mapped-TC matches', async () => {
     const listedTests = [
-      '[chromium] › example.spec.ts:10:1 › users to products order flow TC_SMOKE_USERS_TO_PRODUCTS @smoke',
-      '[chromium] › example.spec.ts:27:1 › create user then place order TC_SMOKE_CREATE_USER_ORDER @smoke',
-      '[chromium] › example.spec.ts:51:1 › flow - create user only TC_USERS_CREATE',
-      '[chromium] › example.spec.ts:67:1 › flow - place order with current active user TC_PRODUCTS_ORDER',
-      '[chromium] › example.spec.ts:80:1 › should not match TC_PRODUCTS_ORDER_EXTENDED',
+      'example.spec.ts › users to products order flow TC_SMOKE_USERS_TO_PRODUCTS @smoke',
+      'example.spec.ts › create user then place order TC_SMOKE_CREATE_USER_ORDER @smoke',
+      'example.spec.ts › flow - create user only TC_USERS_CREATE',
+      'example.spec.ts › flow - place order with current active user TC_PRODUCTS_ORDER',
+      'example.spec.ts › should not match TC_PRODUCTS_ORDER_EXTENDED',
     ]
 
     const suiteTags = new Set(['@smoke'])
@@ -59,9 +59,9 @@ test.describe('resolve-tests unit', () => {
     const result = resolveSelectedTests(listedTests, suiteTags, mappedTests)
 
     expect(result).toEqual([
-      '[chromium] › example.spec.ts:10:1 › users to products order flow TC_SMOKE_USERS_TO_PRODUCTS @smoke',
-      '[chromium] › example.spec.ts:27:1 › create user then place order TC_SMOKE_CREATE_USER_ORDER @smoke',
-      '[chromium] › example.spec.ts:67:1 › flow - place order with current active user TC_PRODUCTS_ORDER',
+      'example.spec.ts › users to products order flow TC_SMOKE_USERS_TO_PRODUCTS @smoke',
+      'example.spec.ts › create user then place order TC_SMOKE_CREATE_USER_ORDER @smoke',
+      'example.spec.ts › flow - place order with current active user TC_PRODUCTS_ORDER',
     ])
   })
 })

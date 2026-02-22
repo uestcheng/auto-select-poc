@@ -129,6 +129,22 @@ export function escapeRegex(value: string): string {
 
 // ─── 6. Playwright list helpers ──────────────────────────────
 
+function normalizeListEntry(line: string): string {
+  const withoutProject = line.replace(/^\[[^\]]+\]\s*[›>]\s*/, '').trim()
+  const segments = withoutProject
+    .split(/\s*[›>]\s*/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+
+  if (segments.length === 0) {
+    return ''
+  }
+
+  segments[0] = segments[0].replace(/:(\d+)(?::\d+)?$/, '')
+
+  return segments.join(' › ')
+}
+
 export function parseListOutput(output: string): string[] {
   return output
     .split('\n')
@@ -137,6 +153,8 @@ export function parseListOutput(output: string): string[] {
     .filter((line) => !line.startsWith('Listing tests:'))
     .filter((line) => !line.startsWith('Total:'))
     .filter((line) => line.includes('›') || line.includes('>'))
+    .map((line) => normalizeListEntry(line))
+    .filter((line) => line.length > 0)
 }
 
 function collectAllListedTests(extraArgs: string): string[] {
