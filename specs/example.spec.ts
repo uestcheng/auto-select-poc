@@ -7,7 +7,7 @@ const appBaseURL = process.env.APP_BASE_URL ?? 'http://localhost:5172'
 test.use({ baseURL: appBaseURL })
 
 
-test('users to products order flow @smoke @UsersPage, @ProductsPage', async ({ page }) => {
+test('users to products order flow TC_SMOKE_USERS_TO_PRODUCTS @smoke', async ({ page }) => {
   const usersPage = new UsersPage(page)
   const productsPage = new ProductsPage(page)
 
@@ -24,7 +24,7 @@ test('users to products order flow @smoke @UsersPage, @ProductsPage', async ({ p
   await expect(page.getByText(/Alice ordered 1 x/i)).toBeVisible()
 })
 
-test('create user then place order @smoke @UsersPage, @ProductsPage', async ({ page }) => {
+test('create user then place order TC_SMOKE_CREATE_USER_ORDER @smoke', async ({ page }) => {
   const usersPage = new UsersPage(page)
   const productsPage = new ProductsPage(page)
   const uniqueSuffix = Date.now()
@@ -48,7 +48,7 @@ test('create user then place order @smoke @UsersPage, @ProductsPage', async ({ p
   await expect(page.getByText(new RegExp(`${userName} ordered 1 x`, 'i'))).toBeVisible()
 })
 
-test('flow - create user only @UsersPage', async ({ page }) => {
+test('flow - create user only TC_USERS_CREATE', async ({ page }) => {
   const usersPage = new UsersPage(page)
   const uniqueSuffix = Date.now()
   const userName = `Flow User ${uniqueSuffix}`
@@ -64,7 +64,7 @@ test('flow - create user only @UsersPage', async ({ page }) => {
   await expect(userRow).toContainText(userEmail)
 })
 
-test('flow - place order with current active user @ProductsPage', async ({ page }) => {
+test('flow - place order with current active user TC_PRODUCTS_ORDER', async ({ page }) => {
   const productsPage = new ProductsPage(page)
 
   await productsPage.open()

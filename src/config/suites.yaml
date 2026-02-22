@@ -1,0 +1,15 @@
+# ──────────────────────────────────────────────
+# suites.yaml – named test suites (tag-based)
+# ──────────────────────────────────────────────
+# Each suite defines a set of Playwright grep tags.
+# The resolver always runs a "defaultSuite" first,
+# then merges mapping-driven tags on top.
+# ──────────────────────────────────────────────
+
+defaultSuite: smoke
+
+suites:
+  smoke:
+    tags:
+      - "@smoke"
+

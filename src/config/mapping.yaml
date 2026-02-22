@@ -1,0 +1,24 @@
+# ──────────────────────────────────────────────────────
+# mapping.yaml – file-change → test-case routing rules
+# ──────────────────────────────────────────────────────
+# Each rule maps a source-code file pattern (regex) to
+# one or more stable test-case identifiers.
+#
+# NOTE:
+# - Keep TC ids stable in test titles, e.g. "TC_USERS_CREATE".
+# - Resolver will build grep from: suite tags + mapped TC ids.
+# ──────────────────────────────────────────────────────
+
+rules:
+  - pattern: "src/pages/UsersPage\\."
+    tests:
+      - "TC_USERS_CREATE"
+
+  - pattern: "src/pages/ProductsPage\\."
+    tests:
+      - "TC_PRODUCTS_ORDER"
+
+  - pattern: "src/components/"
+    tests:
+      - "TC_USERS_CREATE"
+      - "TC_PRODUCTS_ORDER"

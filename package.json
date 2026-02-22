@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "test": "playwright test",
+    "test:unit": "playwright test specs/resolve-tests.unit.spec.ts",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
-    "test:dynamic": "bash ./scripts/run-dynamic-selection.sh"
+    "test:dynamic": "tsx ./scripts/resolve-tests.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.3.0",
+    "js-yaml": "^4.1.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   }
