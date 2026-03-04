@@ -1,10 +1,12 @@
 import type { Locator } from '@playwright/test'
 
-export class TableComponent {
+class BaseTableComponent {
   private readonly root: Locator
+  readonly componentName: string
 
-  constructor(root: Locator) {
+  constructor(root: Locator, componentName: string) {
     this.root = root
+    this.componentName = componentName
   }
 
   getRoot(): Locator {
@@ -33,5 +35,17 @@ export class TableComponent {
 
   getButtonInRow(rowIndex: number, buttonName: string): Locator {
     return this.getRowByIndex(rowIndex).getByRole('button', { name: buttonName })
+  }
+}
+
+export class UsersTableComponent extends BaseTableComponent {
+  constructor(root: Locator, componentName = 'src/components/UsersTable.jsx') {
+    super(root, componentName)
+  }
+}
+
+export class ProductsTableComponent extends BaseTableComponent {
+  constructor(root: Locator, componentName = 'src/components/ProductsTable.jsx') {
+    super(root, componentName)
   }
 }

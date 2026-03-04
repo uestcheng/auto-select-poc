@@ -1,5 +1,5 @@
 import type { Locator, Page } from '@playwright/test'
-import { TableComponent } from '../component/table.component.js'
+import { ProductsTableComponent } from '../component/table.component.js'
 import { BasePage } from './base.page.js'
 
 export class ProductsPage extends BasePage {
@@ -10,11 +10,11 @@ export class ProductsPage extends BasePage {
   readonly saveProductButton: Locator
   readonly activeUserHint: Locator
   readonly notice: Locator
-  readonly productsTable: TableComponent
+  readonly productsTable: ProductsTableComponent
   readonly recentOrdersHeading: Locator
 
   constructor(page: Page) {
-    super(page)
+    super(page, 'src/pages/ProductsPage.jsx')
 
     this.heading = page.getByRole('heading', { name: 'Product & Order Workflow' })
     this.productNameInput = page.getByTestId('product-name-input')
@@ -23,7 +23,7 @@ export class ProductsPage extends BasePage {
     this.saveProductButton = page.getByTestId('save-product-btn')
     this.activeUserHint = page.locator('.hint')
     this.notice = page.locator('.notice')
-    this.productsTable = new TableComponent(page.getByTestId('product-list'))
+    this.productsTable = new ProductsTableComponent(page.getByTestId('product-list'))
     this.recentOrdersHeading = page.getByRole('heading', { name: 'Recent Orders' })
   }
 

@@ -1,9 +1,9 @@
 # ──────────────────────────────────────────────
 # suites.yaml – named test suites (tag-based)
 # ──────────────────────────────────────────────
-# Each suite defines a set of Playwright grep tags.
-# The resolver always runs a "defaultSuite" first,
-# then merges mapping-driven tags on top.
+# Each suite lists Playwright @tag annotations.
+# resolve-tests.ts statically scans spec source
+# to find specs matching these tags.
 # ──────────────────────────────────────────────
 
 defaultSuite: smoke

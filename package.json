@@ -8,7 +8,8 @@
     "test:unit": "playwright test specs/resolve-tests.unit.spec.ts",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
-    "test:dynamic": "tsx ./scripts/resolve-tests.ts"
+    "generate:mapping": "tsx ./scripts/generate-mapping.ts",
+    "test:dynamic": "npm run generate:mapping && tsx ./scripts/resolve-tests.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

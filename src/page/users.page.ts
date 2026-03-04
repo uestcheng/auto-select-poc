@@ -1,5 +1,5 @@
 import type { Locator, Page } from '@playwright/test'
-import { TableComponent } from '../component/table.component.js'
+import { UsersTableComponent } from '../component/table.component.js'
 import { BasePage } from './base.page.js'
 
 export class UsersPage extends BasePage {
@@ -7,16 +7,16 @@ export class UsersPage extends BasePage {
   readonly nameInput: Locator
   readonly emailInput: Locator
   readonly saveUserButton: Locator
-  readonly userTable: TableComponent
+  readonly userTable: UsersTableComponent
 
   constructor(page: Page) {
-    super(page)
+    super(page, 'src/pages/UsersPage.jsx')
 
     this.heading = page.getByRole('heading', { name: 'User Management'})
     this.nameInput = page.getByTestId('user-name-input')
     this.emailInput = page.getByTestId('user-email-input')
     this.saveUserButton = page.getByTestId('save-user-btn')
-    this.userTable = new TableComponent(page.getByTestId('user-table'))
+    this.userTable = new UsersTableComponent(page.getByTestId('user-table'))
   }
 
   async open(): Promise<void> {
