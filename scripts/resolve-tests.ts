@@ -289,9 +289,9 @@ export function resolveSuiteSpecsByStaticScan(suiteTags: Set<string>): Set<strin
 }
 
 function normalizeListEntry(line: string): string {
-  const withoutProject = line.replace(/^\[[^\]]+\]\s*[›>]\s*/, '').trim()
+  const withoutProject = line.replace(/^\[[^\]]+\]\s*›\s*/, '').trim()
   const segments = withoutProject
-    .split(/\s*[›>]\s*/)
+    .split(/\s*›\s*/)
     .map((part) => part.trim())
     .filter(Boolean)
 
@@ -311,7 +311,7 @@ export function parseListOutput(output: string): string[] {
     .filter((line) => line.length > 0)
     .filter((line) => !line.startsWith('Listing tests:'))
     .filter((line) => !line.startsWith('Total:'))
-    .filter((line) => line.includes('›') || line.includes('>'))
+    .filter((line) => line.includes('›'))
     .map((line) => normalizeListEntry(line))
     .filter((line) => line.length > 0)
 }
