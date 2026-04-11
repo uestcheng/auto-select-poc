@@ -9,7 +9,8 @@
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
     "generate:mapping": "tsx ./scripts/generate-mapping.ts",
-    "test:dynamic": "npm run generate:mapping && tsx ./scripts/resolve-tests.ts"
+    "validate:testids": "tsx ./scripts/validate-testids.ts",
+    "test:dynamic": "npm run generate:mapping && npm run validate:testids && tsx ./scripts/resolve-tests.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

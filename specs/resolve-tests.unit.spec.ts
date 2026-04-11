@@ -169,3 +169,20 @@ test.describe('resolve-tests unit', () => {
     })
   })
 })
+
+test.describe('phase4 script integration', () => {
+  const { execSync } = require('node:child_process')
+  const qaRoot = require('node:path').resolve(__dirname, '..')
+
+  test('generate-mapping exits 0 (pageName lint passes)', () => {
+    expect(() => {
+      execSync('npx tsx scripts/generate-mapping.ts', { cwd: qaRoot, stdio: 'pipe' })
+    }).not.toThrow()
+  })
+
+  test('validate-testids exits 0 (testid contracts pass)', () => {
+    expect(() => {
+      execSync('npx tsx scripts/validate-testids.ts', { cwd: qaRoot, stdio: 'pipe' })
+    }).not.toThrow()
+  })
+})

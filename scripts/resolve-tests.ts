@@ -63,10 +63,6 @@ function collectChangedFiles(): string[] {
     const parts = [
       run(`git -C "${REPO_PATH}" diff --name-only`),
       run(`git -C "${REPO_PATH}" diff --name-only --cached`),
-      run(
-        `git -C "${REPO_PATH}" rev-parse --verify HEAD~1 >/dev/null 2>&1 ` +
-        `&& git -C "${REPO_PATH}" diff --name-only HEAD~1 HEAD`
-      ),
     ]
     output = parts.filter(Boolean).join('\n')
   }
@@ -169,10 +165,6 @@ export function collectDiffContent(
     rawDiffs.push(
       run(`git -C "${repoPath}" diff -U0`),
       run(`git -C "${repoPath}" diff -U0 --cached`),
-      run(
-        `git -C "${repoPath}" rev-parse --verify HEAD~1 >/dev/null 2>&1 ` +
-        `&& git -C "${repoPath}" diff -U0 HEAD~1 HEAD`,
-      ),
     )
   }
 
@@ -404,7 +396,15 @@ function main(): void {
 
   const cmd = `npx playwright test --test-list "${TEST_LIST_FILE}" ${extraArgs}`.trim()
 
-  execSync(cmd, { stdio: 'inherit' })
+  try {
+    execSync(cmd, { stdio: 'inherit' })
+  } catch (error: unknown) {
+    const code =
+      error instanceof Error && 'status' in error
+        ? (error as NodeJS.ErrnoException & { status: number }).status
+        : 1
+    process.exit(code ?? 1)
+  }
 }
 
 function isDirectExecution(): boolean {

@@ -57,19 +57,33 @@ function readUtf8(filePath: string): string {
 function scanPageClassToFrontendPath(): Map<string, string> {
   const files = walkFiles(pagesDir, (filePath) => filePath.endsWith('.ts'))
   const result = new Map<string, string>()
+  const missing: string[] = []
 
   for (const file of files) {
     const source = readUtf8(file)
     const classNameMatch = source.match(/export\s+class\s+([A-Za-z0-9_]+)\s+extends\s+BasePage/)
+
+    if (!classNameMatch) {
+      continue
+    }
+
     const superMatch = source.match(/super\(\s*page\s*,\s*['\"]([^'\"]+)['\"]\s*\)/)
 
-    if (!classNameMatch || !superMatch) {
+    if (!superMatch) {
+      missing.push(`${classNameMatch[1]} (${relative(qaRoot, file)})`)
       continue
     }
 
     const className = classNameMatch[1]
     const frontendPath = toPosixPath(superMatch[1])
     result.set(className, frontendPath)
+  }
+
+  if (missing.length > 0) {
+    console.error('❌ Page Objects extending BasePage without pageName:')
+    missing.forEach((entry) => console.error(`   - ${entry}`))
+    console.error('   Each PO must call super(page, \'src/pages/YourPage.jsx\')')
+    process.exit(1)
   }
 
   return result
